@@ -245,9 +245,11 @@ ai.thoughtful.platform.factory.model.Package          100.0% (22/22) 100.0% (2/2
 
 The system processes box measurements and returns stack assignments:
 
-#### API Usage Examples
+## :alien: API Usage Examples
 
-**Example 1: Standard Box Processing**
+**Example 1: Standard Box (Larger but within limits)**
+
+Let's first create a Package.
 
 ```java
 // 1. Create package using fluent API
@@ -257,31 +259,32 @@ Package box = PackageFactory.builder()
     .withHeightInCm(20)
     .withMassInGrams(5000)
     .build();
+```
 
+Then, we can classify it with the API.
+
+```java
 // 2. Get classification using static method
 EnumSet<PackageClassification> classification = PackageClassification.classify(box);
 // Result: Empty set (STANDARD = no classifications)
+```
 
+Finally, we can get the sort type.
+
+```java
 // 3. Determine stack assignment using static method
-String stackAssignment = StackType.sort(30, 20, 50, 5000); // width, height, length, mass
+StackType stackAssignment = StackType.sort(box);
 // Result: "STANDARD" (normal processing)
 ```
 
+### API Examples
+
 **Example 2: Standard Box (Larger but within limits)**
 
+> [!TIP]
+> * Note that you can use the inputs directly to the StackType.
+
 ```java
-// 1. Create package using fluent API with clear parameter names
-Package box = PackageFactory.builder()
-    .withLengthInCm(80)
-    .withWidthInCm(60)
-    .withHeightInCm(40)
-    .withMassInGrams(15000)
-    .build();
-
-// 2. Get classification using static method
-EnumSet<PackageClassification> classification = PackageClassification.classify(box);
-// Result: Empty set (dimensions < 150cm, weight < 20kg, volume = 192,000 cm³)
-
 // 3. Determine stack assignment using static method
 String stackAssignment = StackType.sort(60, 40, 80, 15000); // width, height, length, mass
 // Result: "STANDARD" (normal processing)
