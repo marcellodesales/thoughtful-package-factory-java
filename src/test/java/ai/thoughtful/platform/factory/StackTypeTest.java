@@ -1,5 +1,6 @@
 package ai.thoughtful.platform.factory;
 
+import ai.thoughtful.platform.factory.model.Package;
 import ai.thoughtful.platform.factory.model.PackageFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -59,13 +60,18 @@ class StackTypeTest {
         @DisplayName("Should classify stack as REJECTED when package is both bulky and heavy")
         void shouldClassifyStackAsRejectedWhenBothBulkyAndHeavy() {
             // Given
-            int width = 150, height = 150, length = 150, mass = 25000; // Both bulky and heavy
+            Package pkg = PackageFactory.builder()
+                    .withHeightInCm(150)
+                    .withWidthInCm(150)
+                    .withLengthInCm(150)
+                    .withMassInGrams(25000)
+                    .build();
 
             // When
-            String result = StackType.sort(width, height, length, mass);
+            StackType result = StackType.sort(pkg);
 
             // Then
-            assertEquals(StackType.REJECTED.name(), result);
+            assertEquals(StackType.REJECTED, result);
         }
     }
 }

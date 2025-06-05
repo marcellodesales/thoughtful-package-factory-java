@@ -46,8 +46,12 @@ class PackageClassificationTest {
         @DisplayName("Should classify as bulky when volume is exactly at threshold")
         void shouldClassifyAsBulkyWhenVolumeIsExactlyAtThreshold() {
             // Given
-            Package pkg = PackageFactory.make(100, 100, 100, 5000);
-
+            Package pkg = PackageFactory.builder()
+                    .withHeightInCm(100)
+                    .withWidthInCm(100)
+                    .withLengthInCm(1000)
+                    .withMassInGrams(5000)
+                    .build();
             // When
             EnumSet<PackageClassification> classification = PackageClassification.classify(pkg);
 
