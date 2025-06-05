@@ -11,6 +11,8 @@ public record Package(
 ) {
 
     public Package {
+        Preconditions.checkNotNull(dimension,
+                "Can't create a package without dimension");
         Preconditions.checkArgument(mass > 0,
                 "Can't create package with invalid mass");
     }

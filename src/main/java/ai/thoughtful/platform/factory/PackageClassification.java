@@ -15,7 +15,7 @@ public enum PackageClassification {
     HEAVY;
 
     private static final int BULKY_LIMIT = 1000000;
-    private static final int HEAVY_MASS_LIMIT = 20 * 1000;
+    private static final int HEAVY_MASS_LIMIT = 20000;
 
     public static EnumSet<PackageClassification> classify(Package packageUnit) {
         PackageDimension dimension = packageUnit.dimension();

@@ -23,16 +23,16 @@ public enum StackType {
             return STANDARD.name();
         }
 
+        // If there's a single classification, then it's special (either heavy or bulky)
+        if (pkgClassification.size() == 1) {
+            return StackType.SPECIAL.name();
+        }
+
         // If it's bulky and heavy, then just reject
         EnumSet<PackageClassification> rejectSet = EnumSet.of(PackageClassification.BULKY, PackageClassification.HEAVY);
         if (rejectSet.containsAll(pkgClassification)) {
             return StackType.REJECTED.name();
 
-        }
-
-        // If there's a single classification, then it's special (either heavy or bulky)
-        if (pkgClassification.size() == 1) {
-            return StackType.SPECIAL.name();
         }
 
         return null;
