@@ -11,6 +11,8 @@ version = "1.0-SNAPSHOT"
 
 java {
     toolchain {
+        // support JDK 21 becuse JaCoCo code coverage has not support yet to 24 latest
+        // Next LTS is JDK 25 so keeping on the LTS
         languageVersion.set(JavaLanguageVersion.of(21))
     }
 }

@@ -1,0 +1,10 @@
+services:
+
+  sorter:
+    image: marcellodesdales/thoughtful-package-sorter
+    build:
+      context: .
+      args:
+        BUIlD_BASE_IMAGE: gradle:8.14.1-jdk21-alpine
+        RUNTIME_BASE_IMAGE: alpine/java:21-jre
+
