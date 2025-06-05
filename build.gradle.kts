@@ -1,6 +1,9 @@
 plugins {
     id("java")
+    id("application")
     id("jacoco")
+    id("org.springframework.boot") version "3.2.0"
+    id("io.spring.dependency-management") version "1.1.4"
 }
 
 group = "org.example"
@@ -22,7 +25,9 @@ tasks.withType<JavaExec> {
 }
 
 dependencies {
+    implementation("org.springframework.boot:spring-boot-starter")
     implementation("com.google.guava:guava:33.4.8-jre")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
@@ -220,4 +225,48 @@ tasks.register("testWithCoverage") {
     dependsOn("jacocoTestReport")
     group = "verification"
     description = "Runs tests and generates code coverage reports"
+}
+
+// Task to run the CLI application with help
+tasks.register<JavaExec>("runCli") {
+    dependsOn("classes")
+    group = "application"
+    description = "Runs the package classifier CLI application with help"
+    classpath = sourceSets["main"].runtimeClasspath
+    mainClass.set("ai.thoughtful.platform.factory.PackageSorterApplication")
+    args = listOf("--help")
+}
+
+// Task to run the CLI with custom arguments
+tasks.register<JavaExec>("sort") {
+    dependsOn("classes")
+    group = "application"
+    description = "Classifies a package. Usage: gradle sort -Pargs='width,height,length,mass'"
+    classpath = sourceSets["main"].runtimeClasspath
+    mainClass.set("ai.thoughtful.platform.factory.PackageSorterApplication")
+    
+    if (project.hasProperty("args")) {
+        args = listOf(project.property("args").toString())
+    } else {
+        args = listOf("--help")
+    }
+}
+
+// Configure application main class
+application {
+    mainClass.set("ai.thoughtful.platform.factory.PackageSorterApplication")
+}
+
+// Task to build executable JAR
+tasks.register("buildCli") {
+    dependsOn("bootJar")
+    group = "build"
+    description = "Builds the executable CLI JAR file"
+    doLast {
+        println("\n✅ CLI JAR built successfully!")
+        println("📦 Location: ${layout.buildDirectory.get()}/libs/${project.name}-${project.version}.jar")
+        println("\n🚀 Usage:")
+        println("  java -jar build/libs/${project.name}-${project.version}.jar \"50,30,20,5000\"")
+        println("  java -jar build/libs/${project.name}-${project.version}.jar --help")
+    }
 }
