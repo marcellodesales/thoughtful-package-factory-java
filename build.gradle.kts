@@ -1,6 +1,9 @@
 plugins {
     id("java")
+    id("application")
     id("jacoco")
+    id("org.springframework.boot") version "3.2.0"
+    id("io.spring.dependency-management") version "1.1.4"
 }
 
 group = "org.example"
@@ -22,7 +25,9 @@ tasks.withType<JavaExec> {
 }
 
 dependencies {
+    implementation("org.springframework.boot:spring-boot-starter")
     implementation("com.google.guava:guava:33.4.8-jre")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
