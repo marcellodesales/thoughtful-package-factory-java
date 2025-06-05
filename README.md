@@ -17,6 +17,7 @@ An intelligent classification system that analyzes **box measurements** (length,
 - [Code Coverage](#-code-coverage)
 - [System Usage](#-system-usage)
 - [Algorithm Details](#-algorithm-details)
+- [Client Interfaces](#-client-interfaces)
 - [Development](#-development)
 
 ## 🎯 System Overview
@@ -474,6 +475,21 @@ Boxes with volume ≥ 1,000,000 cm³ are classified as BULKY even if no single d
 4. Apply classification rules
 5. Determine stack assignment
 6. Return result
+
+## 🖥️ Client Interfaces
+
+The system supports multiple client interfaces for integration and usage:
+
+* [x] ✅ CLI** - Command-line interface for direct system interaction
+* [ ] 📋 API** - REST API for programmatic integration `(TODO)`
+
+### CLI Interface
+
+The CLI interface provides direct access to the box classification system through command-line operations. See [CLI_USAGE.md](CLI_USAGE.md) for detailed usage instructions.
+
+### API Interface
+
+REST API implementation is planned for future releases to enable programmatic integration with external systems.
 
 ## 🛠️ Development
 
