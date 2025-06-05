@@ -14,27 +14,27 @@ public enum StackType {
     // packages that are **both** heavy and bulky are rejected.
     REJECTED;
 
-    public static String sort(int width, int height, int length, double mass) {
-        Package pkg = PackageFactory.make(width, height, length, mass);
+    public static StackType sort(Package pkg) {
         EnumSet<PackageClassification> pkgClassification = PackageClassification.classify(pkg);
-
-        // Since the set is empty, there's no classification
-        if (pkgClassification.isEmpty()) {
-            return STANDARD.name();
-        }
 
         // If there's a single classification, then it's special (either heavy or bulky)
         if (pkgClassification.size() == 1) {
-            return StackType.SPECIAL.name();
+            return StackType.SPECIAL;
+
+        } else if (pkgClassification.size() > 1) {
+            // If it's bulky and heavy, then just reject
+            EnumSet<PackageClassification> rejectSet = EnumSet.of(PackageClassification.BULKY, PackageClassification.HEAVY);
+            if (rejectSet.containsAll(pkgClassification)) {
+                return StackType.REJECTED;
+            }
         }
 
-        // If it's bulky and heavy, then just reject
-        EnumSet<PackageClassification> rejectSet = EnumSet.of(PackageClassification.BULKY, PackageClassification.HEAVY);
-        if (rejectSet.containsAll(pkgClassification)) {
-            return StackType.REJECTED.name();
+        // Since the set is empty, there's no classification
+        return STANDARD;
+    }
 
-        }
-
-        return null;
+    public static String sort(int width, int height, int length, double mass) {
+        Package pkg = PackageFactory.make(width, height, length, mass);
+        return StackType.sort(pkg).name();
     }
 }
