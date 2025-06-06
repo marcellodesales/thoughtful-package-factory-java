@@ -1,4 +1,4 @@
-package ai.thoughtful.platform.factory;
+package ai.thoughtful.platform.factory.algorithm;
 
 import ai.thoughtful.platform.factory.model.Package;
 import ai.thoughtful.platform.factory.model.PackageFactory;
@@ -15,7 +15,7 @@ public enum StackType {
     REJECTED;
 
     public static StackType sort(Package pkg) {
-        EnumSet<PackageClassification> pkgClassification = PackageClassification.classify(pkg);
+        EnumSet<PackageClassificationType> pkgClassification = PackageClassificationType.classify(pkg);
 
         // If there's a single classification, then it's special (either heavy or bulky)
         if (pkgClassification.size() == 1) {
@@ -23,7 +23,7 @@ public enum StackType {
 
         } else if (pkgClassification.size() > 1) {
             // If it's bulky and heavy, then just reject
-            EnumSet<PackageClassification> rejectSet = EnumSet.of(PackageClassification.BULKY, PackageClassification.HEAVY);
+            EnumSet<PackageClassificationType> rejectSet = EnumSet.of(PackageClassificationType.BULKY, PackageClassificationType.HEAVY);
             if (rejectSet.containsAll(pkgClassification)) {
                 return StackType.REJECTED;
             }

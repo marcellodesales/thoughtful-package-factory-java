@@ -1,6 +1,5 @@
 package ai.thoughtful.platform.factory.model;
 
-import ai.thoughtful.platform.factory.PackageClassification;
 import com.google.common.base.Preconditions;
 
 public record Package(
