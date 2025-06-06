@@ -20,7 +20,7 @@ public enum PackageClassificationType {
 
     public static EnumSet<PackageClassificationType> classify(Package packageUnit) {
         PackageDimension dimension = packageUnit.dimension();
-        Set<PackageClassificationType> classifications = EnumSet.noneOf(PackageClassificationType.class);
+        EnumSet<PackageClassificationType> classifications = EnumSet.noneOf(PackageClassificationType.class);
         if (dimension.getVolume() >= BULKY_LIMIT ||
                 dimension.length() >= 150 || dimension.height() >= 150 || dimension.width() >= 150) {
             classifications.add(BULKY);

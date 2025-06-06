@@ -1,5 +1,6 @@
 package ai.thoughtful.platform.factory;
 
+import ai.thoughtful.platform.factory.algorithm.PackageClassificationType;
 import ai.thoughtful.platform.factory.model.Package;
 import ai.thoughtful.platform.factory.model.PackageFactory;
 import org.junit.jupiter.api.DisplayName;
@@ -31,7 +32,7 @@ class PackageClassificationTest {
             Package pkg = PackageFactory.make(width, height, length, mass);
 
             // When
-            EnumSet<PackageClassification> classification = PackageClassification.classify(pkg);
+            EnumSet<PackageClassificationType> classification = PackageClassificationType.classify(pkg);
 
             // Then
             assertTrue(classification.isEmpty());
@@ -53,11 +54,11 @@ class PackageClassificationTest {
                     .withMassInGrams(5000)
                     .build();
             // When
-            EnumSet<PackageClassification> classification = PackageClassification.classify(pkg);
+            EnumSet<PackageClassificationType> classification = PackageClassificationType.classify(pkg);
 
             // Then
-            assertTrue(classification.contains(PackageClassification.BULKY));
-            assertFalse(classification.contains(PackageClassification.HEAVY));
+            assertTrue(classification.contains(PackageClassificationType.BULKY));
+            assertFalse(classification.contains(PackageClassificationType.HEAVY));
             assertEquals(1, classification.size());
         }
 
@@ -73,10 +74,10 @@ class PackageClassificationTest {
             Package pkg = PackageFactory.make(width, height, length, mass);
 
             // When
-            EnumSet<PackageClassification> classification = PackageClassification.classify(pkg);
+            EnumSet<PackageClassificationType> classification = PackageClassificationType.classify(pkg);
 
             // Then
-            assertTrue(classification.contains(PackageClassification.BULKY));
+            assertTrue(classification.contains(PackageClassificationType.BULKY));
         }
     }
 
@@ -91,11 +92,11 @@ class PackageClassificationTest {
             Package pkg = PackageFactory.make(10, 10, 10, 20000);
 
             // When
-            EnumSet<PackageClassification> classification = PackageClassification.classify(pkg);
+            EnumSet<PackageClassificationType> classification = PackageClassificationType.classify(pkg);
 
             // Then
-            assertTrue(classification.contains(PackageClassification.HEAVY));
-            assertFalse(classification.contains(PackageClassification.BULKY));
+            assertTrue(classification.contains(PackageClassificationType.HEAVY));
+            assertFalse(classification.contains(PackageClassificationType.BULKY));
             assertEquals(1, classification.size());
         }
     }
