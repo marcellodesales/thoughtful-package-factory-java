@@ -13,7 +13,7 @@ public record Package(
     public Package {
         Preconditions.checkNotNull(dimension,
                 "Can't create a package without dimension");
-        Preconditions.checkArgument(mass > 0,
-                "Can't create package with invalid mass");
+        Preconditions.checkArgument(mass > 0 && Double.isFinite(mass),
+                "Can't create package with invalid finite mass number");
     }
 }
