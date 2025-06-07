@@ -1,6 +1,8 @@
 package ai.thoughtful.platform.factory.cli;
 
-import ai.thoughtful.platform.factory.StackType;
+import ai.thoughtful.platform.factory.AutomationFactoryService;
+import ai.thoughtful.platform.factory.model.Package;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +13,10 @@ import org.springframework.stereotype.Component;
  * Example: "50,30,20,5000" -> "STANDARD"
  */
 @Component
-public class PackageClassifierRunner implements CommandLineRunner {
+public class PackageClassifierCliRunner implements CommandLineRunner {
+
+    @Autowired
+    private AutomationFactoryService service;
 
     @Override
     public void run(String... args) throws Exception {
@@ -28,8 +33,9 @@ public class PackageClassifierRunner implements CommandLineRunner {
         }
 
         try {
-            String stackType = classifyPackage(input);
+            String stackType = this.sortPackage(input);
             System.out.println(stackType);
+
         } catch (IllegalArgumentException e) {
             System.err.println("Error: " + e.getMessage());
             printUsage();
@@ -47,7 +53,7 @@ public class PackageClassifierRunner implements CommandLineRunner {
      * @return stack type as string (STANDARD, SPECIAL, or REJECTED)
      * @throws IllegalArgumentException if input format is invalid
      */
-    private String classifyPackage(String input) {
+    private String sortPackage(String input) {
         if (input == null || input.trim().isEmpty()) {
             throw new IllegalArgumentException("Input cannot be empty");
         }
@@ -58,30 +64,15 @@ public class PackageClassifierRunner implements CommandLineRunner {
                 "Input must have exactly 4 comma-separated values: width,height,length,mass");
         }
 
-        try {
-            int width = Integer.parseInt(parts[0].trim());
-            int height = Integer.parseInt(parts[1].trim());
-            int length = Integer.parseInt(parts[2].trim());
-            double mass = Double.parseDouble(parts[3].trim());
+        int width = Integer.parseInt(parts[0].trim());
+        int height = Integer.parseInt(parts[1].trim());
+        int length = Integer.parseInt(parts[2].trim());
+        double mass = Double.parseDouble(parts[3].trim());
 
-            // Validate inputs
-            if (width <= 0 || height <= 0 || length <= 0 || mass <= 0) {
-                throw new IllegalArgumentException(
-                    "All dimensions and mass must be positive values");
-            }
+        Package pkg = service.makeNewPackage(width, height, length, mass);
 
-            if (!Double.isFinite(mass)) {
-                throw new IllegalArgumentException(
-                    "Mass must be a finite number");
-            }
-
-            // Use StackType.sort method to get classification
-            return StackType.sort(width, height, length, mass);
-
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(
-                "All values must be valid numbers. Width, height, and length must be integers, mass can be decimal.");
-        }
+        // Use StackType.sort method to get classification
+        return service.sortPackage(pkg).name();
     }
 
     private void printUsage() {

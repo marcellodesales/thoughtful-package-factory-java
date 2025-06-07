@@ -1,5 +1,6 @@
 package ai.thoughtful.platform.factory;
 
+import ai.thoughtful.platform.factory.algorithm.StackType;
 import ai.thoughtful.platform.factory.model.Package;
 import ai.thoughtful.platform.factory.model.PackageFactory;
 import org.junit.jupiter.api.DisplayName;
