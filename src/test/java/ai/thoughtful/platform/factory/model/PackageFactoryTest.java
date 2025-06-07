@@ -139,7 +139,7 @@ class PackageFactoryTest {
             // When & Then
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> PackageFactory.make(10, 10, 10, invalidMass));
-            assertEquals("Can't create package with invalid mass", exception.getMessage());
+            assertEquals("Can't create package with invalid finite mass number", exception.getMessage());
         }
 
         @Test
@@ -148,7 +148,7 @@ class PackageFactoryTest {
             // When & Then
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> PackageFactory.make(10, 10, 10, Double.NaN));
-            assertEquals("Can't create package with invalid mass", exception.getMessage());
+            assertEquals("Can't create package with invalid finite mass number", exception.getMessage());
         }
 
         @Test
