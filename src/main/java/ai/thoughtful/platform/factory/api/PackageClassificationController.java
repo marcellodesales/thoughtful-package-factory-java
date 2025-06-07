@@ -2,7 +2,7 @@ package ai.thoughtful.platform.factory.api;
 
 import ai.thoughtful.platform.factory.AutomationFactoryService;
 import ai.thoughtful.platform.factory.algorithm.PackageClassificationType;
-import ai.thoughtful.platform.factory.api.dto.ClassificationResponse;
+import ai.thoughtful.platform.factory.api.dto.OperationResponse;
 import ai.thoughtful.platform.factory.model.Package;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +34,7 @@ public class PackageClassificationController {
      * @return Classification response with stack assignment
      */
     @GetMapping("/classify")
-    public ResponseEntity<ClassificationResponse> classifyPackage(
+    public ResponseEntity<OperationResponse> classifyPackage(
             @RequestParam("width") int width,
             @RequestParam("height") int height,
             @RequestParam("length") int length,
@@ -51,15 +51,15 @@ public class PackageClassificationController {
             // Create response
             // Transform classification
             Set<PackageClassificationType> classify = new HashSet<>(packageClassifications);
-            ClassificationResponse response = new ClassificationResponse(pkg, classify, classificationRemarks);
+            OperationResponse response = new OperationResponse(pkg, classify, null, classificationRemarks);
             return ResponseEntity.ok(response);
             
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest()
-                .body(new ClassificationResponse(e.getMessage()));
+                .body(new OperationResponse(e.getMessage()));
         } catch (Exception e) {
             return ResponseEntity.internalServerError()
-                .body(new ClassificationResponse("Internal server error: " + e.getMessage()));
+                .body(new OperationResponse("Internal server error: " + e.getMessage()));
         }
     }
 
@@ -73,7 +73,7 @@ public class PackageClassificationController {
      * @return Classification response with stack assignment
      */
     @GetMapping("/classify/{width}/{height}/{length}/{mass}")
-    public ResponseEntity<ClassificationResponse> classifyPackageByPath(
+    public ResponseEntity<OperationResponse> classifyPackageByPath(
             @PathVariable("width") int width,
             @PathVariable("height") int height,
             @PathVariable("length") int length,
